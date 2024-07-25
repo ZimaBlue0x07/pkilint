@@ -14,6 +14,12 @@ There are several ready-to-use command-line tools bundled with pkilint, or the P
 
 ## Installation
 
+### Intalling the Fork
+
+    ```shell
+    pip install git+https://github.com/ZimaBlue0x07/pkilint.git#egg=pkilint
+    ```
+
 ### Installing locally
 
 1. Python 3.9 or newer must be installed. Python can be downloaded and installed from https://www.python.org/downloads/, or

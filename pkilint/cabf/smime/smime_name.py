@@ -173,7 +173,9 @@ class SubscriberSubjectValidator(validation.Validator):
 
         if self._required_one_of_n_attributes and len(self._required_one_of_n_attributes.intersection(attributes)) == 0:
             oids = oid.format_oids(self._required_one_of_n_attributes)
-
+            print("### added info start ###")
+            print(oids)
+            print("### added info end ###")
             findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
                                                                     f'Missing one of these required attributes: {oids}')
                             )
