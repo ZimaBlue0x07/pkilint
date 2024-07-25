@@ -167,7 +167,7 @@ class SubscriberSubjectValidator(validation.Validator):
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
-                                                    f'Missing required attribute: {a}')
+                                                    f'Missing required attribute: {a}, number of missing attributes {self._required_attributes - attributes}')
             for a in self._required_attributes - attributes
         ))
 
