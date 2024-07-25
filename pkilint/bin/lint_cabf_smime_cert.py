@@ -56,6 +56,7 @@ class MappingFileAction(argparse.Action):
 
 
 def main(cli_args=None) -> int:
+    print("custom fork")
     parser = argparse.ArgumentParser(
         description=f'CA/Browser Forum S/MIME Baseline Requirements v{smime_constants.BR_VERSION} Certificate Linter'
     )
@@ -154,5 +155,4 @@ def main(cli_args=None) -> int:
 
 
 if __name__ == '__main__':
-    print("custom fork")
     sys.exit(main())
