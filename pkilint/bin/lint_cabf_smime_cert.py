@@ -154,4 +154,5 @@ def main(cli_args=None) -> int:
 
 
 if __name__ == '__main__':
+    print("custom fork")
     sys.exit(main())
