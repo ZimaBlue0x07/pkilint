@@ -15,27 +15,6 @@ SHALL = pkix.Rfc2119Word.SHALL
 SHALL_NOT = pkix.Rfc2119Word.SHALL_NOT
 MAY = pkix.Rfc2119Word.MAY
 
-test = '''
-{
-"oids: [
-    {
-        "OID": "2.5.4.0",
-        "Name": "objectClass",
-        "Sub children": "0",
-        "Sub Nodes Total": "0",
-        "Description": "Object classes"
-    },
-    {
-        "OID": "2.5.4.1",
-        "Name": "aliasedEntryName",
-        "Sub children": "1",
-        "Sub Nodes Total": "1",
-        "Description": "Attribute type \"Aliased entry name\""
-    }
-    ]
-}
-'''
-
 _OID_METADATA = '''
 {
     "oids":[
@@ -51,7 +30,7 @@ _OID_METADATA = '''
         "Name": "aliasedEntryName",
         "Sub children": "1",
         "Sub Nodes Total": "1",
-        "Description": "Attribute type \"Aliased entry name\""
+        "Description": "Attribute type \\"Aliased entry name\\""
     },
     {
         "OID": "2.5.4.2",
@@ -72,7 +51,7 @@ _OID_METADATA = '''
         "Name": "surname",
         "Sub children": "1",
         "Sub Nodes Total": "1",
-        "Description": "Attribute \"surname\""
+        "Description": "Attribute \\"surname\\""
     },
     {
         "OID": "2.5.4.5",
@@ -429,21 +408,21 @@ _OID_METADATA = '''
         "Name": "clearance",
         "Sub children": "1",
         "Sub Nodes Total": "1",
-        "Description": "Attribute type \"Clearance\""
+        "Description": "Attribute type \\"Clearance\\""
     },
     {
         "OID": "2.5.4.56",
         "Name": "defaultDirQop",
         "Sub children": "1",
         "Sub Nodes Total": "1",
-        "Description": "Attribute type \"Default Dir Qop\""
+        "Description": "Attribute type \\"Default Dir Qop\\""
     },
     {
         "OID": "2.5.4.57",
         "Name": "attributeIntegrityInfo",
         "Sub children": "1",
         "Sub Nodes Total": "1",
-        "Description": "Attribute type \"Attribute integrity info\""
+        "Description": "Attribute type \\"Attribute integrity info\\""
     },
     {
         "OID": "2.5.4.58",
@@ -464,7 +443,7 @@ _OID_METADATA = '''
         "Name": "confKeyInfo",
         "Sub children": "1",
         "Sub Nodes Total": "1",
-        "Description": "Attribute type \"Conf key info\""
+        "Description": "Attribute type \\"Conf key info\\""
     },
     {
         "OID": "2.5.4.61",
@@ -597,7 +576,7 @@ _OID_METADATA = '''
         "Name": "uiiFormat",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "uiiFormat ATTRIBUTE ::= {\nWITH SYNTAX UiiFormat\nSINGLE VALUE TRUE\nLDAP-SYNTAX uiiForm.&amp;id\nLDAP-NAME {\"uiiFormat\"}\nID id-at-…"
+        "Description": "uiiFormat ATTRIBUTE ::= {\nWITH SYNTAX UiiFormat\nSINGLE VALUE TRUE\nLDAP-SYNTAX uiiForm.&amp;id\nLDAP-NAME {\\"uiiFormat\\"}\nID id-at-…"
     },
     {
         "OID": "2.5.4.80",
@@ -611,7 +590,7 @@ _OID_METADATA = '''
         "Name": "contentUrl",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "contentUrl ATTRIBUTE ::= {\nSUBTYPE OF url\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\"contentUrl\"}\nID id-at-contentUrl }"
+        "Description": "contentUrl ATTRIBUTE ::= {\nSUBTYPE OF url\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\\"contentUrl\\"}\nID id-at-contentUrl }"
     },
     {
         "OID": "2.5.4.82",
@@ -625,7 +604,7 @@ _OID_METADATA = '''
         "Name": "uri",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "uri ATTRIBUTE ::= {\nWITH SYNTAX URI\nEQUALITY MATCHING RULE uriMatch\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\"uri\"}\nID id…"
+        "Description": "uri ATTRIBUTE ::= {\nWITH SYNTAX URI\nEQUALITY MATCHING RULE uriMatch\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\\"uri\\"}\nID id…"
     },
     {
         "OID": "2.5.4.84",
@@ -646,21 +625,21 @@ _OID_METADATA = '''
         "Name": "urn",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "urn ATTRIBUTE ::= {\nSUBTYPE OF uri\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\"urn\"}\nID id-at-urn }"
+        "Description": "urn ATTRIBUTE ::= {\nSUBTYPE OF uri\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\\"urn\\"}\nID id-at-urn }"
     },
     {
         "OID": "2.5.4.87",
         "Name": "url",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "url ATTRIBUTE ::= {\nSUBTYPE OF uri\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\"url\"}\nID id-at-url }"
+        "Description": "url ATTRIBUTE ::= {\nSUBTYPE OF uri\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\\"url\\"}\nID id-at-url }"
     },
     {
         "OID": "2.5.4.88",
         "Name": "utmCoordinates",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "utmCoordinates ATTRIBUTE ::= {\nWITH SYNTAX UtmCoordinates\nSINGLE VALUE TRUE\nLDAP-SYNTAX utmCoords.&amp;id\nLDAP-NAME {\"utmCoordi…"
+        "Description": "utmCoordinates ATTRIBUTE ::= {\nWITH SYNTAX UtmCoordinates\nSINGLE VALUE TRUE\nLDAP-SYNTAX utmCoords.&amp;id\nLDAP-NAME {\\"utmCoordi…"
     },
     {
         "OID": "2.5.4.89",
@@ -674,14 +653,14 @@ _OID_METADATA = '''
         "Name": "uii",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "uii ATTRIBUTE ::= {\nWITH SYNTAX BIT STRING\nEQUALITY MATCHING RULE bitStringMatch\nLDAP-SYNTAX bitString.&amp;id\nLDAP-NAME {\"uii\"…"
+        "Description": "uii ATTRIBUTE ::= {\nWITH SYNTAX BIT STRING\nEQUALITY MATCHING RULE bitStringMatch\nLDAP-SYNTAX bitString.&amp;id\nLDAP-NAME {\\"uii\\"…"
     },
     {
         "OID": "2.5.4.91",
         "Name": "epc",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "epc ATTRIBUTE ::= {\nWITH SYNTAX BIT STRING\nEQUALITY MATCHING RULE bitStringMatch\nLDAP-SYNTAX bitString.&amp;id\nLDAP-NAME {\"epc\"…"
+        "Description": "epc ATTRIBUTE ::= {\nWITH SYNTAX BIT STRING\nEQUALITY MATCHING RULE bitStringMatch\nLDAP-SYNTAX bitString.&amp;id\nLDAP-NAME {\\"epc\\"…"
     },
     {
         "OID": "2.5.4.92",
@@ -695,28 +674,28 @@ _OID_METADATA = '''
         "Name": "epcFormat",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "epcFormat ATTRIBUTE ::= {\nWITH SYNTAX EpcFormat\nSINGLE VALUE TRUE\nLDAP-SYNTAX epcForm.&amp;id\nLDAP-NAME {\"epcFormat\"}\nID id-at-…"
+        "Description": "epcFormat ATTRIBUTE ::= {\nWITH SYNTAX EpcFormat\nSINGLE VALUE TRUE\nLDAP-SYNTAX epcForm.&amp;id\nLDAP-NAME {\\"epcFormat\\"}\nID id-at-…"
     },
     {
         "OID": "2.5.4.94",
         "Name": "epcInUrn",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "epcInUrn ATTRIBUTE ::= {\nSUBTYPE OF urn\nSINGLE VALUE TRUE\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\"epcInUrn\"}\nID id-at-e…"
+        "Description": "epcInUrn ATTRIBUTE ::= {\nSUBTYPE OF urn\nSINGLE VALUE TRUE\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\\"epcInUrn\\"}\nID id-at-e…"
     },
     {
         "OID": "2.5.4.95",
         "Name": "ldapUrl",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "ldapUrl ATTRIBUTE ::= {\nSUBTYPE OF url\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\"ldapUrl\"}\nID id-at-ldapUrl }"
+        "Description": "ldapUrl ATTRIBUTE ::= {\nSUBTYPE OF url\nLDAP-SYNTAX directoryString.&amp;id\nLDAP-NAME {\\"ldapUrl\\"}\nID id-at-ldapUrl }"
     },
     {
         "OID": "2.5.4.96",
         "Name": "ldapUrl",
         "Sub children": "0",
         "Sub Nodes Total": "0",
-        "Description": "tagLocation ATTRIBUTE ::= {\nSUBTYPE OF utmCoordinates\nSINGLE VALUE TRUE\nLDAP-SYNTAX utmCoords.&amp;id\nLDAP-NAME {\"tagLocation\"}…"
+        "Description": "tagLocation ATTRIBUTE ::= {\nSUBTYPE OF utmCoordinates\nSINGLE VALUE TRUE\nLDAP-SYNTAX utmCoords.&amp;id\nLDAP-NAME {\\"tagLocation\\"}…"
     },
     {
         "OID": "2.5.4.97",
