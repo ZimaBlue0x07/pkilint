@@ -1,4 +1,5 @@
 import validators
+import json
 from pyasn1_alt_modules import rfc5280, rfc8398
 
 from pkilint import validation, pkix, oid
@@ -165,9 +166,12 @@ class SubscriberSubjectValidator(validation.Validator):
         for rdn in node.children.values():
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
+        # extract json
+        oid_metadata = json.load("oid_metadata.json")
+
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
-                                                    f'Missing required attribute: {a}, number of missing attributes {self._required_attributes - attributes}')
+                                                    f'Missing required attribute: {a} {oid_metadata[a]}')
             for a in self._required_attributes - attributes
         ))
 
