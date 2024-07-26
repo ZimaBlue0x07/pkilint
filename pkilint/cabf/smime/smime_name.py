@@ -168,7 +168,8 @@ class SubscriberSubjectValidator(validation.Validator):
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
         # extract json
-        json_file = './oid_metadata.json'
+        script_dir = os.path.dirname(__file__)
+        json_file = os.path.join(script_dir, 'oid_metadata.json')
 
         with open(json_file, 'r') as json_data:
             oid_metadata = json.load(json_data)
