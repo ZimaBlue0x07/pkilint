@@ -167,7 +167,10 @@ class SubscriberSubjectValidator(validation.Validator):
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
         # extract json
-        oid_metadata = json.loads('oid_metadata.json')
+        json_file = 'oid_metadata.json'
+
+        with open(json_file) as json_data:
+            oid_metadata = json.load(json_data)
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
