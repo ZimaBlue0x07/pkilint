@@ -168,15 +168,16 @@ class SubscriberSubjectValidator(validation.Validator):
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
         # extract json
-        script_dir = os.path.dirname(__file__)
-        json_file = os.path.join(script_dir, "oid_metadata.json")
 
-        print(json_file)    
+        json_file = "oid_metadata.json"
 
-        with open(json_file, 'r') as json_data:
-            oid_metadata = json.load(json_data)
+        print("current working directory" + os.getcwd() )    
+        print(os.path.dirname(__file__))
 
-        print(oid_metadata)
+        # with open(json_file, 'r') as json_data:
+        #     oid_metadata = json.load(json_data)
+
+        # print(oid_metadata)
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
