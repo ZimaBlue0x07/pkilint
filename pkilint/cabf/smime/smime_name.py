@@ -477,7 +477,8 @@ def get_email_addresses_from_san(cert_document):
     return email_addresses
 
 
-_OID_METADATA = {
+_OID_METADATA = '''
+[
     {
         "OID": "2.5.4.0",
         "Name": "objectClass",
@@ -1164,4 +1165,5 @@ _OID_METADATA = {
         "Sub Nodes Total": "0",
         "Description": "organizationIdentifier ATTRIBUTE ::= {\nWITH SYNTAX UnboundedDirectoryString\nEQUALITY MATCHING RULE caseIgnoreMatch\nSUBSTRINGS M…"
     }
-}
+]
+'''
