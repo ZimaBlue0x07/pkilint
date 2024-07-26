@@ -172,9 +172,11 @@ class SubscriberSubjectValidator(validation.Validator):
         with open(json_file, 'r') as json_data:
             oid_metadata = json.load(json_data)
 
+        print(oid_metadata)
+
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
-                                                    f'Missing required attribute: {a} {oid_metadata[a]}')
+                                                    f'Missing required attribute: {a} ')
             for a in self._required_attributes - attributes
         ))
 
