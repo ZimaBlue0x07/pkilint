@@ -1,6 +1,5 @@
 import validators
 import json
-import os
 from pyasn1_alt_modules import rfc5280, rfc8398
 
 from pkilint import validation, pkix, oid
