@@ -862,7 +862,7 @@ class SubscriberSubjectValidator(validation.Validator):
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
         # # extract json
-        oid_metadata = json.loads(test)
+        oid_metadata = json.loads(_OID_METADATA)
         print(oid_metadata)
 
         findings.extend((
