@@ -169,7 +169,7 @@ class SubscriberSubjectValidator(validation.Validator):
         # extract json
         json_file = 'oid_metadata.json'
 
-        with open(json_file) as json_data:
+        with open(json_file, 'r') as json_data:
             oid_metadata = json.load(json_data)
 
         findings.extend((
