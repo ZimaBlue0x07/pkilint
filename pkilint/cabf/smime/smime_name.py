@@ -859,12 +859,12 @@ class SubscriberSubjectValidator(validation.Validator):
         for rdn in node.children.values():
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
-        # extract json
-        try:
-            oid_metadata = json.loads(_OID_METADATA)
-        except json.JSONDecodeError as e:
-            print(f"JSONDecodeError: {e}")
-            print(f"Error occurred with data: {_OID_METADATA}")
+        # # extract json
+        # try:
+        #     oid_metadata = json.loads(_OID_METADATA)
+        # except json.JSONDecodeError as e:
+        #     print(f"JSONDecodeError: {e}")
+        #     print(f"Error occurred with data: {_OID_METADATA}")
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
