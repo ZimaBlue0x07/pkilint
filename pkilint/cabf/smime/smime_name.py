@@ -167,6 +167,8 @@ class SubscriberSubjectValidator(validation.Validator):
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
         # extract json
+        oid_metadata = json.loads(_OID_METADATA)
+        print(oid_metadata)
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
@@ -476,7 +478,6 @@ def get_email_addresses_from_san(cert_document):
 
 
 _OID_METADATA = {
-    [
     {
         "OID": "2.5.4.0",
         "Name": "objectClass",
@@ -1163,5 +1164,4 @@ _OID_METADATA = {
         "Sub Nodes Total": "0",
         "Description": "organizationIdentifier ATTRIBUTE ::= {\nWITH SYNTAX UnboundedDirectoryString\nEQUALITY MATCHING RULE caseIgnoreMatch\nSUBSTRINGS M…"
     }
-]
 }
