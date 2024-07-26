@@ -17,7 +17,7 @@ MAY = pkix.Rfc2119Word.MAY
 
 
 _OID_METADATA = '''
-[
+
     {
         "OID": "2.5.4.0",
         "Name": "objectClass",
@@ -704,7 +704,7 @@ _OID_METADATA = '''
         "Sub Nodes Total": "0",
         "Description": "organizationIdentifier ATTRIBUTE ::= {\nWITH SYNTAX UnboundedDirectoryString\nEQUALITY MATCHING RULE caseIgnoreMatch\nSUBSTRINGS M…"
     }
-]
+
 '''
 
 
