@@ -15,6 +15,26 @@ SHALL = pkix.Rfc2119Word.SHALL
 SHALL_NOT = pkix.Rfc2119Word.SHALL_NOT
 MAY = pkix.Rfc2119Word.MAY
 
+test = '''
+{
+"oids: [
+    {
+        "OID": "2.5.4.0",
+        "Name": "objectClass",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "Object classes"
+    },
+    {
+        "OID": "2.5.4.1",
+        "Name": "aliasedEntryName",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Attribute type \"Aliased entry name\""
+    }
+    ]
+}
+'''
 
 _OID_METADATA = '''
 {
@@ -863,8 +883,8 @@ class SubscriberSubjectValidator(validation.Validator):
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
         # # extract json
-        oid_metadata = json.loads(_OID_METADATA)
-
+        oid_metadata = json.loads(test)
+        print(oid_metadata)
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
