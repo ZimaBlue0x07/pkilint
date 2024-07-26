@@ -864,7 +864,7 @@ class SubscriberSubjectValidator(validation.Validator):
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
-                                                    f'Missing required attribute: {a} {oid_metadata["2.5.4.1"]}')
+                                                    f'Missing required attribute: {a} {oid_metadata[str(a)]}')
             for a in self._required_attributes - attributes
         ))
 
