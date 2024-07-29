@@ -21,6 +21,22 @@ pip uninstall pkilint
 pip install git+https://github.com/ZimaBlue0x07/pkilint.git#egg=pkilint
 ```
 
+Update the list in:
+
+in pkilint/pkix/algorithm.py:66
+```python
+not_allowed_signature_algorithm_encodings = {
+    # src: https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/
+    "300d06092a864886f70d0101050500" : "RSASSA-PKCS1-v1_5 with SHA-1",
+    # ECDSA with SHA‐512, src: https://letsencrypt.org/documents/isrg-cp-v3.3/
+    "300a06082a8648ce3d040304" : "ECDSA with SHA‐512"
+}
+```
+
+to ensure better results.
+
+
+
 ### Installing locally
 
 1. Python 3.9 or newer must be installed. Python can be downloaded and installed from https://www.python.org/downloads/, or
