@@ -864,17 +864,14 @@ class SubscriberSubjectValidator(validation.Validator):
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
-                                                    f'Missing required attribute: {a} {oid_metadata[str(a)]}')
+                                                    f'Missing required attribute: {a} {oid_metadata[str(a)]}') # need better presentation of data
             for a in self._required_attributes - attributes
         ))
 
         if self._required_one_of_n_attributes and len(self._required_one_of_n_attributes.intersection(attributes)) == 0:
             oids = oid.format_oids(self._required_one_of_n_attributes)
-            oids_url = ''
-            for oid in oids:
-                oids_url += "https://oidref.com/" + oid
             findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
-                                                                    f'Missing one of these required attributes: {oids} more information under {oids_url}')
+                                                                    f'Missing one of these required attributes: {oids} ') # list all oids with more information
                             )
 
         findings.extend((

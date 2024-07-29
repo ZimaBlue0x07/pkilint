@@ -33,6 +33,47 @@ SIGNATURE_ALGORITHM_IDENTIFIER_MAPPINGS = {
     rfc4055.id_RSASSA_PSS: rfc4055.RSASSA_PSS_params(),
 }
 
+ALLOWED_SIGNATURE_ALGORITHM_ENCODINGS = set(
+    map(
+        binascii.a2b_hex, [
+            # RSASSA‐PKCS1‐v1_5 with SHA‐256
+            '300d06092a864886f70d01010b0500',
+            # RSASSA‐PKCS1‐v1_5 with SHA‐384
+            '300d06092a864886f70d01010c0500',
+            # RSASSA‐PKCS1‐v1_5 with SHA‐512
+            '300d06092a864886f70d01010d0500',
+            # RSASSA‐PSS with SHA‐256, MGF‐1 with SHA‐256, and a salt length of 32 bytes
+            '304106092a864886f70d01010a3034a00f300d060960864801650'
+            '30402010500a11c301a06092a864886f70d010108300d06096086480165030402010500a203020120',
+            # RSASSA‐PSS with SHA‐384, MGF‐1 with SHA‐384, and a salt length of 48 bytes
+            '304106092a864886f70d01010a3034a00f300d060960864801650'
+            '30402020500a11c301a06092a864886f70d010108300d06096086480165030402020500a203020130',
+            # RSASSA‐PSS with SHA‐512, MGF‐1 with SHA‐512, and a salt length of 64 bytes
+            '304106092a864886f70d01010a3034a00f300d060960864801650'
+            '30402030500a11c301a06092a864886f70d010108300d06096086480165030402030500a203020140',
+            # ECDSA with SHA‐256
+            '300a06082a8648ce3d040302',
+            # ECDSA with SHA‐384
+            '300a06082a8648ce3d040303',
+            # Ed25519
+            '300506032b6570',
+            # Ed448
+            '300506032b6571'
+        ]
+    )
+)
+
+allowed_signature_algorithm_encodings = {
+    "300d06092a864886f70d01010b0500" : "RSASSA‐PKCS1‐v1_5 with SHA‐256",
+    "300d06092a864886f70d01010c0500" : "RSASSA‐PKCS1‐v1_5 with SHA‐384",
+    "300d06092a864886f70d01010d0500" : "RSASSA‐PKCS1‐v1_5 with SHA‐512",
+    "304106092a864886f70d01010a3034a00f300d06096086480165030402010500a11c301a06092a864886f70d010108300d06096086480165030402010500a203020120" : "RSASSA‐PSS with SHA‐256, MGF‐1 with SHA‐256, and a salt length of 32 bytes",
+    "304106092a864886f70d01010a3034a00f300d06096086480165030402020500a11c301a06092a864886f70d010108300d06096086480165030402020500a203020130" : "RSASSA‐PSS with SHA‐384, MGF‐1 with SHA‐384, and a salt length of 48 bytes",
+    "300a06082a8648ce3d040302" : "ECDSA with SHA‐256",
+    "300a06082a8648ce3d040303" : "ECDSA with SHA‐384",
+    "300506032b6570" : "Ed25519",
+    "300506032b6571" : "Ed448"
+}
 
 class AlgorithmIdentifierDecodingValidator(validation.DecodingValidator):
     def __init__(self, *, decode_func, **kwargs):
@@ -59,5 +100,5 @@ class AllowedSignatureAlgorithmEncodingValidator(validation.Validator):
 
             raise validation.ValidationFindingEncountered(
                 self._validations[0],
-                f'Prohibited encoding: {encoded_str}'
+                f'Prohibited encoding: {encoded_str} Signature algorithms: {allowed_signature_algorithm_encodings[encoded_str]}'           # output for prohibited signature algorithm encoding
             )
