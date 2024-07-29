@@ -96,8 +96,11 @@ class AllowedSignatureAlgorithmEncodingValidator(validation.Validator):
         encoded = encode(node.pdu)
         if encoded not in self._allowed_encodings:
             encoded_str = binascii.hexlify(encoded).decode('us-ascii')
+            print(encoded)
+            print(binascii.hexlify(encoded))
             try:
-                signature_algorithms_str = f'Signature algorithms: {allowed_signature_algorithm_encodings[str(encoded_str)]}'           # output for prohibited signature algorithm encoding
+                # output for prohibited signature algorithm encoding
+                signature_algorithms_str = f'Signature algorithms: {allowed_signature_algorithm_encodings[str(encoded_str)]}'      
             except:
                 signature_algorithms_str = f'Signature algorithms: unknown' 
 
