@@ -16,9 +16,10 @@ There are several ready-to-use command-line tools bundled with pkilint, or the P
 
 ### Intalling the Fork
 
-    ```shell
-    pip install git+https://github.com/ZimaBlue0x07/pkilint.git#egg=pkilint
-    ```
+```shell
+pip uninstall pkilint
+pip install git+https://github.com/ZimaBlue0x07/pkilint.git#egg=pkilint
+```
 
 ### Installing locally
 

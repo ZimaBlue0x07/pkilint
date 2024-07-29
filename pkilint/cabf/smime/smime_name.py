@@ -1,4 +1,5 @@
 import validators
+import json
 from pyasn1_alt_modules import rfc5280, rfc8398
 
 from pkilint import validation, pkix, oid
@@ -13,6 +14,699 @@ from pkilint.pkix import certificate, name, Rfc2119Word, general_name
 SHALL = pkix.Rfc2119Word.SHALL
 SHALL_NOT = pkix.Rfc2119Word.SHALL_NOT
 MAY = pkix.Rfc2119Word.MAY
+
+_OID_METADATA = '''
+{
+    "2.5.4.0" : {
+        "OID": "2.5.4.0",
+        "Name": "objectClass",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "Object classes"
+    },
+    "2.5.4.1" : {
+        "OID": "2.5.4.1",
+        "Name": "aliasedEntryName",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Attribute type \\"Aliased entry name\\""
+    },
+    "2.5.4.2" : {
+        "OID": "2.5.4.2",
+        "Name": "knowledgeInformation",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "knowledgeInformation attribute type"
+    },
+    "2.5.4.3" : {
+        "OID": "2.5.4.3",
+        "Name": "commonName",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Common name"
+    },
+    "2.5.4.4" : {
+        "OID": "2.5.4.4",
+        "Name": "surname",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Attribute \\"surname\\""
+    },
+    "2.5.4.5" : {
+        "OID": "2.5.4.5",
+        "Name": "serialNumber",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Serial number attribute type"
+    },
+    "2.5.4.6" : {
+        "OID": "2.5.4.6",
+        "Name": "countryName",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Country name"
+    },
+    "2.5.4.7" : {
+        "OID": "2.5.4.7",
+        "Name": "localityName",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Locality Name"
+    },
+    "2.5.4.8" : {
+        "OID": "2.5.4.8",
+        "Name": "stateOrProvinceName",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "State or Province name"
+    },
+    "2.5.4.9" : {
+        "OID": "2.5.4.9",
+        "Name": "streetAddress",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Street address"
+    },
+    "2.5.4.10" : {
+        "OID": "2.5.4.10",
+        "Name": "organizationName",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Organization name"
+    },
+    "2.5.4.11" : {
+        "OID": "2.5.4.11",
+        "Name": "organizationUnitName",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Organization unit name"
+    },
+    "2.5.4.12" : {
+        "OID": "2.5.4.12",
+        "Name": "title",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Title attribute type"
+    },
+    "2.5.4.13" : {
+        "OID": "2.5.4.13",
+        "Name": "description",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Description attribute type"
+    },
+    "2.5.4.14" : {
+        "OID": "2.5.4.14",
+        "Name": "searchGuide",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Search guide attribute type"
+    },
+    "2.5.4.15" : {
+        "OID": "2.5.4.15",
+        "Name": "businessCategory",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Business category attribute type"
+    },
+    "2.5.4.16" : {
+        "OID": "2.5.4.16",
+        "Name": "postalAddress",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Postal address attribute type"
+    },
+    "2.5.4.17" : {
+        "OID": "2.5.4.17",
+        "Name": "postalCode",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Postal code attribute type"
+    },
+    "2.5.4.18" : {
+        "OID": "2.5.4.18",
+        "Name": "postOfficeBox",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Post office box attribute type"
+    },
+    "2.5.4.19" : {
+        "OID": "2.5.4.19",
+        "Name": "physicalDeliveryOfficeName",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "physicalDeliveryOfficeName attribute type"
+    },
+    "2.5.4.20" : {
+        "OID": "2.5.4.20",
+        "Name": "telephoneNumber",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Telephone number attribute type"
+    },
+    "2.5.4.21" : {
+        "OID": "2.5.4.21",
+        "Name": "telexNumber",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Telex number attribute type"
+    },
+    "2.5.4.22" : {
+        "OID": "2.5.4.22",
+        "Name": "teletexTerminalIdentifier",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Teletex terminal identifier attribute type"
+    },
+    "2.5.4.23" : {
+        "OID": "2.5.4.23",
+        "Name": "facsimileTelephoneNumber",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "Facsimile telephone number attribute type"
+    },
+    "2.5.4.24" : {
+        "OID": "2.5.4.24",
+        "Name": "x121Address",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "X121 address attribute type"
+    },
+    "2.5.4.25" : {
+        "OID": "2.5.4.25",
+        "Name": "internationalISDNNumber",
+        "Sub children": "2",
+        "Sub Nodes Total": "3",
+        "Description": "International ISDN (Integrated Services Digital Network) number attribute type"
+    },
+    "2.5.4.26" : {
+        "OID": "2.5.4.26",
+        "Name": "registeredAddress",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Registered address attribute type"
+    },
+    "2.5.4.27" : {
+        "OID": "2.5.4.27",
+        "Name": "destinationIndicator",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Destination indicator attribute type"
+    },
+    "2.5.4.28" : {
+        "OID": "2.5.4.28",
+        "Name": "preferredDeliveryMethod",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Preferred delivery method attribute type"
+    },
+    "2.5.4.29" : {
+        "OID": "2.5.4.29",
+        "Name": "presentationAddress",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Presentation address attribute type"
+    },
+    "2.5.4.30" : {
+        "OID": "2.5.4.30",
+        "Name": "supportedApplicationContext",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Supported application context attribute type"
+    },
+    "2.5.4.31" : {
+        "OID": "2.5.4.31",
+        "Name": "member",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Member attribute type"
+    },
+    "2.5.4.32" : {
+        "OID": "2.5.4.32",
+        "Name": "owner",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Owner attribute type"
+    },
+    "2.5.4.33" : {
+        "OID": "2.5.4.33",
+        "Name": "roleOccupant",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Role occupant attribute type"
+    },
+    "2.5.4.34" : {
+        "OID": "2.5.4.34",
+        "Name": "seeAlso",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "seeAlso attribute type"
+    },
+    "2.5.4.35" : {
+        "OID": "2.5.4.35",
+        "Name": "userPassword",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "userPassword attribute type"
+    },
+    "2.5.4.36" : {
+        "OID": "2.5.4.36",
+        "Name": "userCertificate",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "userCertificate attribute type"
+    },
+    "2.5.4.37" : {
+        "OID": "2.5.4.37",
+        "Name": "cACertificate",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "cAcertificate attribute type"
+    },
+    "2.5.4.38" : {
+        "OID": "2.5.4.38",
+        "Name": "authorityRevocationList",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "authorityRevocationList attribute type"
+    },
+    "2.5.4.39" : {
+        "OID": "2.5.4.39",
+        "Name": "certificateRevocationList",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "certificateRevocationList attribute type"
+    },
+    "2.5.4.40" : {
+        "OID": "2.5.4.40",
+        "Name": "crossCertificatePair",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "crossCertificatePair attribute type"
+    },
+    "2.5.4.41" : {
+        "OID": "2.5.4.41",
+        "Name": "name",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "Name attribute type"
+    },
+    "2.5.4.42" : {
+        "OID": "2.5.4.42",
+        "Name": "givenName",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Given name attribute type"
+    },
+    "2.5.4.43" : {
+        "OID": "2.5.4.43",
+        "Name": "initials",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Initials attribute type"
+    },
+    "2.5.4.44" : {
+        "OID": "2.5.4.44",
+        "Name": "generationQualifier",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "generationQualifier attribute type"
+    },
+    "2.5.4.45" : {
+        "OID": "2.5.4.45",
+        "Name": "uniqueIdentifier",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "uniqueIdentifier attribute type"
+    },
+    "2.5.4.46" : {
+        "OID": "2.5.4.46",
+        "Name": "dnQualifier",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "dnQualifier attribute type"
+    },
+    "2.5.4.47" : {
+        "OID": "2.5.4.47",
+        "Name": "enhancedSearchGuide",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "enhancedSearchGuide attribute type"
+    },
+    "2.5.4.48" : {
+        "OID": "2.5.4.48",
+        "Name": "protocolInformation",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "protocolInformation attribute type"
+    },
+    "2.5.4.49" : {
+        "OID": "2.5.4.49",
+        "Name": "distinguishedName",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "distinguishedName attribute type"
+    },
+    "2.5.4.50" : {
+        "OID": "2.5.4.50",
+        "Name": "uniqueMember",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "uniqueMember attribute type"
+    },
+    "2.5.4.51" : {
+        "OID": "2.5.4.51",
+        "Name": "houseIdentifier",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "houseIdentifier attribute type"
+    },
+    "2.5.4.52" : {
+        "OID": "2.5.4.52",
+        "Name": "supportedAlgorithms",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "supportedAlgorithms attribute type"
+    },
+    "2.5.4.53" : {
+        "OID": "2.5.4.53",
+        "Name": "deltaRevocationList",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "deltaRevocationList attribute type"
+    },
+    "2.5.4.54" : {
+        "OID": "2.5.4.54",
+        "Name": "dmdName",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "DMD Name attribute type"
+    },
+    "2.5.4.55" : {
+        "OID": "2.5.4.55",
+        "Name": "clearance",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Attribute type \\"Clearance\\""
+    },
+    "2.5.4.56" : {
+        "OID": "2.5.4.56",
+        "Name": "defaultDirQop",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Attribute type \\"Default Dir Qop\\""
+    },
+    "2.5.4.57" : {
+        "OID": "2.5.4.57",
+        "Name": "attributeIntegrityInfo",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Attribute type \\"Attribute integrity info\\""
+    },
+    "2.5.4.58" : {
+        "OID": "2.5.4.58",
+        "Name": "attributeCertificate",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "attributeCertificate attribute type"
+    },
+    "2.5.4.59" : {
+        "OID": "2.5.4.59",
+        "Name": "attributeCertificateRevocationList",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "attributeCertificateRevocationList attribute type"
+    },
+    "2.5.4.60" : {
+        "OID": "2.5.4.60",
+        "Name": "confKeyInfo",
+        "Sub children": "1",
+        "Sub Nodes Total": "1",
+        "Description": "Attribute type \\"Conf key info\\""
+    },
+    "2.5.4.61" : {
+        "OID": "2.5.4.61",
+        "Name": "aACertificate",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "aACertificate attribute type"
+    },
+    "2.5.4.62" : {
+        "OID": "2.5.4.62",
+        "Name": "attributeDescriptorCertificate",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "attributeDescriptorCertificate attribute type"
+    },
+    "2.5.4.63" : {
+        "OID": "2.5.4.63",
+        "Name": "attributeAuthorityRevocationList",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "attributeAuthorityRevocationList attribute type"
+    },
+    "2.5.4.64" : {
+        "OID": "2.5.4.64",
+        "Name": "family-information",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "Family-information attribute type"
+    },
+    "2.5.4.65" : {
+        "OID": "2.5.4.65",
+        "Name": "pseudonym",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "Pseudonym attribute type"
+    },
+    "2.5.4.66" : {
+        "OID": "2.5.4.66",
+        "Name": "communicationsService",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "communicationsService attribute type"
+    },
+    "2.5.4.67" : {
+        "OID": "2.5.4.67",
+        "Name": "communicationsNetwork",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "communicationsNetwork attribute type"
+    },
+    "2.5.4.68" : {
+        "OID": "2.5.4.68",
+        "Name": "certificationPracticeStmt",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "certificationPracticeStmt attribute type (Certification practice statement attribute)"
+    },
+    "2.5.4.69" : {
+        "OID": "2.5.4.69",
+        "Name": "certificatePolicy",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "certificatePolicy attribute type"
+    },
+    "2.5.4.70" : {
+        "OID": "2.5.4.70",
+        "Name": "pkiPath",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "pkiPath attribute type"
+    },
+    "2.5.4.71" : {
+        "OID": "2.5.4.71",
+        "Name": "privPolicy",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "privPolicy attribute type"
+    },
+    "2.5.4.72" : {
+        "OID": "2.5.4.72",
+        "Name": "role",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "role attribute type"
+    },
+    "2.5.4.73" : {
+        "OID": "2.5.4.73",
+        "Name": "delegationPath",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "delegationPath attribute type"
+    },
+    "2.5.4.74" : {
+        "OID": "2.5.4.74",
+        "Name": "protPrivPolicy",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "protPrivPolicy ATTRIBUTE ::= {\\nWITH SYNTAX AttributeCertificate\\nEQUALITY MATCHING RULE attributeCertificateExactMatch\\nID id-at-…"
+    },
+    "2.5.4.75" : {
+        "OID": "2.5.4.75",
+        "Name": "xMLPrivilegeInfo",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "xmlPrivilegeInfo ATTRIBUTE ::= {\\nWITH SYNTAX UTF8String --contains XML-encoded privilege information\\nID id-at-xMLPrivilegeInfo }"
+    },
+    "2.5.4.76" : {
+        "OID": "2.5.4.76",
+        "Name": "xmlPrivPolicy",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "None"
+    },
+    "2.5.4.77" : {
+        "OID": "2.5.4.77",
+        "Name": "uuidpair",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "uUIDPair"
+    },
+    "2.5.4.78" : {
+        "OID": "2.5.4.78",
+        "Name": "tagOid",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "tagOid ATTRIBUTE ::= {\\nWITH SYNTAX OBJECT IDENTIFIER\\nEQUALITY MATCHING RULE objectIdentifierMatch\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX…"
+    },
+    "2.5.4.79" : {
+        "OID": "2.5.4.79",
+        "Name": "uiiFormat",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "uiiFormat ATTRIBUTE ::= {\\nWITH SYNTAX UiiFormat\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX uiiForm.&amp;id\\nLDAP-NAME {\\"uiiFormat\\"}\\nID id-at-…"
+    },
+    "2.5.4.80" : {
+        "OID": "2.5.4.80",
+        "Name": "uiiInUrh",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "uiiInUrn ATTRIBUTE ::= {\\nWITH SYNTAX UTF8String\\nEQUALITY MATCHING RULE caseExactMatch\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX directorySt…"
+    },
+    "2.5.4.81" : {
+        "OID": "2.5.4.81",
+        "Name": "contentUrl",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "contentUrl ATTRIBUTE ::= {\\nSUBTYPE OF url\\nLDAP-SYNTAX directoryString.&amp;id\\nLDAP-NAME {\\"contentUrl\\"}\\nID id-at-contentUrl }"
+    },
+    "2.5.4.82" : {
+        "OID": "2.5.4.82",
+        "Name": "permission",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "permission ATTRIBUTE ::= {\\nWITH SYNTAX DualStringSyntax\\nEQUALITY MATCHING RULE dualStringMatch\\nID id-at-permission }"
+    },
+    "2.5.4.83" : {
+        "OID": "2.5.4.83",
+        "Name": "uri",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "uri ATTRIBUTE ::= {\\nWITH SYNTAX URI\\nEQUALITY MATCHING RULE uriMatch\\nLDAP-SYNTAX directoryString.&amp;id\\nLDAP-NAME {\\"uri\\"}\\nID id…"
+    },
+    "2.5.4.84" : {
+        "OID": "2.5.4.84",
+        "Name": "pwdAttribute",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "pwdAttribute ATTRIBUTE ::= {\\nWITH SYNTAX ATTRIBUTE.&amp;id\\nEQUALITY MATCHING RULE objectIdentifierMatch\\nSINGLE VALUE TRUE\\nLDAP-…"
+    },
+    "2.5.4.85" : {
+        "OID": "2.5.4.85",
+        "Name": "userPwd",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "userPwd ATTRIBUTE ::= {\\nWITH SYNTAX UserPwd\\nEQUALITY MATCHING RULE userPwdMatch\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX userPwdDescriptio…"
+    },
+    "2.5.4.86" : {
+        "OID": "2.5.4.86",
+        "Name": "urn",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "urn ATTRIBUTE ::= {\\nSUBTYPE OF uri\\nLDAP-SYNTAX directoryString.&amp;id\\nLDAP-NAME {\\"urn\\"}\\nID id-at-urn }"
+    },
+    "2.5.4.87" : {
+        "OID": "2.5.4.87",
+        "Name": "url",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "url ATTRIBUTE ::= {\\nSUBTYPE OF uri\\nLDAP-SYNTAX directoryString.&amp;id\\nLDAP-NAME {\\"url\\"}\\nID id-at-url }"
+    },
+    "2.5.4.88" : {
+        "OID": "2.5.4.88",
+        "Name": "utmCoordinates",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "utmCoordinates ATTRIBUTE ::= {\\nWITH SYNTAX UtmCoordinates\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX utmCoords.&amp;id\\nLDAP-NAME {\\"utmCoordi…"
+    },
+    "2.5.4.89" : {
+        "OID": "2.5.4.89",
+        "Name": "urnC",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "urnC ATTRIBUTE ::= {\\nWITH SYNTAX PrintableString\\nEQUALITY MATCHING RULE caseExactMatch\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX printableS…"
+    },
+    "2.5.4.90" : {
+        "OID": "2.5.4.90",
+        "Name": "uii",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "uii ATTRIBUTE ::= {\\nWITH SYNTAX BIT STRING\\nEQUALITY MATCHING RULE bitStringMatch\\nLDAP-SYNTAX bitString.&amp;id\\nLDAP-NAME {\\"uii\\"…"
+    },
+    "2.5.4.91" : {
+        "OID": "2.5.4.91",
+        "Name": "epc",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "epc ATTRIBUTE ::= {\\nWITH SYNTAX BIT STRING\\nEQUALITY MATCHING RULE bitStringMatch\\nLDAP-SYNTAX bitString.&amp;id\\nLDAP-NAME {\\"epc\\"…"
+    },
+    "2.5.4.92" : {
+        "OID": "2.5.4.92",
+        "Name": "tagAfi",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "tagAfi ATTRIBUTE ::= {\\nWITH SYNTAX OCTET STRING\\nEQUALITY MATCHING RULE octetStringMatch\\nLDAP-SYNTAX octetString.&amp;id\\nLDAP-NA…"
+    },
+    "2.5.4.93" : {
+        "OID": "2.5.4.93",
+        "Name": "epcFormat",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "epcFormat ATTRIBUTE ::= {\\nWITH SYNTAX EpcFormat\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX epcForm.&amp;id\\nLDAP-NAME {\\"epcFormat\\"}\\nID id-at-…"
+    },
+    "2.5.4.94" : {
+        "OID": "2.5.4.94",
+        "Name": "epcInUrn",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "epcInUrn ATTRIBUTE ::= {\\nSUBTYPE OF urn\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX directoryString.&amp;id\\nLDAP-NAME {\\"epcInUrn\\"}\\nID id-at-e…"
+    },
+    "2.5.4.95" : {
+        "OID": "2.5.4.95",
+        "Name": "ldapUrl",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "ldapUrl ATTRIBUTE ::= {\\nSUBTYPE OF url\\nLDAP-SYNTAX directoryString.&amp;id\\nLDAP-NAME {\\"ldapUrl\\"}\\nID id-at-ldapUrl }"
+    },
+    "2.5.4.96" : {
+        "OID": "2.5.4.96",
+        "Name": "ldapUrl",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "tagLocation ATTRIBUTE ::= {\\nSUBTYPE OF utmCoordinates\\nSINGLE VALUE TRUE\\nLDAP-SYNTAX utmCoords.&amp;id\\nLDAP-NAME {\\"tagLocation\\"}…"
+    },
+    "2.5.4.97" : {
+        "OID": "2.5.4.97",
+        "Name": "organizationIdentifier",
+        "Sub children": "0",
+        "Sub Nodes Total": "0",
+        "Description": "organizationIdentifier ATTRIBUTE ::= {\\nWITH SYNTAX UnboundedDirectoryString\\nEQUALITY MATCHING RULE caseIgnoreMatch\\nSUBSTRINGS M…"
+    }
+}
+'''
+
+
 
 _MV_ATTRIBUTES = {
     rfc5280.id_at_commonName: (MAY, MAY, MAY),
@@ -165,19 +859,19 @@ class SubscriberSubjectValidator(validation.Validator):
         for rdn in node.children.values():
             attributes.update((atv.children['type'].pdu for atv in rdn.children.values()))
 
+        # extract json
+        oid_metadata = json.loads(_OID_METADATA)
+
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
-                                                    f'Missing required attribute: {a}')
+                                                    f'Missing required attribute: {a} {oid_metadata[str(a)]}') # need better presentation of data
             for a in self._required_attributes - attributes
         ))
 
         if self._required_one_of_n_attributes and len(self._required_one_of_n_attributes.intersection(attributes)) == 0:
             oids = oid.format_oids(self._required_one_of_n_attributes)
-            oids_url = ''
-            for oid in oids:
-                oids_url += "https://oidref.com/" + oid
             findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE,
-                                                                    f'Missing one of these required attributes: {oids} more information under {oids_url}')
+                                                                    f'Missing one of these required attributes: {oids} ') # list all oids with more information
                             )
 
         findings.extend((
@@ -470,3 +1164,4 @@ def get_email_addresses_from_san(cert_document):
             email_addresses.append(value.navigate('value').child[1].pdu)
 
     return email_addresses
+
