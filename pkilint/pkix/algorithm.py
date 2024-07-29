@@ -100,7 +100,7 @@ class AllowedSignatureAlgorithmEncodingValidator(validation.Validator):
                 # output for prohibited signature algorithm encoding
                 signature_algorithms_str = f'Signature algorithms: {allowed_signature_algorithm_encodings[str(encoded_str)]} {encoded}'      
             except:
-                signature_algorithms_str = f'Signature algorithms: unknown' 
+                signature_algorithms_str = f'Signature algorithms: unknown {encoded}' 
 
             raise validation.ValidationFindingEncountered(
                 self._validations[0],
