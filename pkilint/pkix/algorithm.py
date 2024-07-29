@@ -63,7 +63,7 @@ ALLOWED_SIGNATURE_ALGORITHM_ENCODINGS = set(
     )
 )
 
-allowed_signature_algorithm_encodings = {
+signature_algorithm_encodings = {
     "300d06092a864886f70d01010b0500" : "RSASSA‐PKCS1‐v1_5 with SHA‐256",
     "300d06092a864886f70d01010c0500" : "RSASSA‐PKCS1‐v1_5 with SHA‐384",
     "300d06092a864886f70d01010d0500" : "RSASSA‐PKCS1‐v1_5 with SHA‐512",
@@ -76,6 +76,7 @@ allowed_signature_algorithm_encodings = {
     # src: https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/
     "300d06092a864886f70d0101050500" : "RSASSA-PKCS1-v1_5 with SHA-1" 
 }
+
 
 class AlgorithmIdentifierDecodingValidator(validation.DecodingValidator):
     def __init__(self, *, decode_func, **kwargs):
@@ -100,7 +101,7 @@ class AllowedSignatureAlgorithmEncodingValidator(validation.Validator):
             encoded_str = binascii.hexlify(encoded).decode('us-ascii')
             try:
                 # output for prohibited signature algorithm encoding
-                signature_algorithms_str = allowed_signature_algorithm_encodings[str(encoded_str)]
+                signature_algorithms_str = signature_algorithm_encodings[str(encoded_str)]
             except:
                 signature_algorithms_str = "unknown" 
 
