@@ -72,7 +72,9 @@ allowed_signature_algorithm_encodings = {
     "300a06082a8648ce3d040302" : "ECDSA with SHA‐256",
     "300a06082a8648ce3d040303" : "ECDSA with SHA‐384",
     "300506032b6570" : "Ed25519",
-    "300506032b6571" : "Ed448"
+    "300506032b6571" : "Ed448",
+    # src: https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/
+    "300d06092a864886f70d0101050500" : "RSASSA-PKCS1-v1_5 with SHA-1" 
 }
 
 class AlgorithmIdentifierDecodingValidator(validation.DecodingValidator):
@@ -98,11 +100,11 @@ class AllowedSignatureAlgorithmEncodingValidator(validation.Validator):
             encoded_str = binascii.hexlify(encoded).decode('us-ascii')
             try:
                 # output for prohibited signature algorithm encoding
-                signature_algorithms_str = f'Signature algorithms: {allowed_signature_algorithm_encodings[str(encoded_str)]} {encoded}'      
+                signature_algorithms_str = {allowed_signature_algorithm_encodings[str(encoded_str)]}
             except:
-                signature_algorithms_str = f'Signature algorithms: unknown {binascii.hexlify(encoded)}' 
+                signature_algorithms_str = "unknown" 
 
             raise validation.ValidationFindingEncountered(
                 self._validations[0],
-                f'Prohibited encoding: {encoded_str} {signature_algorithms_str}'
+                f'Prohibited encoding: {encoded_str} Signature algorithms: {signature_algorithms_str}'
             )
