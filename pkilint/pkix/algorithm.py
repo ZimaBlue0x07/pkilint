@@ -63,6 +63,7 @@ ALLOWED_SIGNATURE_ALGORITHM_ENCODINGS = set(
     )
 )
 
+# must be extended
 not_allowed_signature_algorithm_encodings = {
     # src: https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/
     "300d06092a864886f70d0101050500" : "RSASSA-PKCS1-v1_5 with SHA-1",
