@@ -100,7 +100,7 @@ class AllowedSignatureAlgorithmEncodingValidator(validation.Validator):
             encoded_str = binascii.hexlify(encoded).decode('us-ascii')
             try:
                 # output for prohibited signature algorithm encoding
-                signature_algorithms_str = {allowed_signature_algorithm_encodings[str(encoded_str)]}
+                signature_algorithms_str = allowed_signature_algorithm_encodings[str(encoded_str)]
             except:
                 signature_algorithms_str = "unknown" 
 
