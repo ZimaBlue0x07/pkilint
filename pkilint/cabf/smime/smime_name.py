@@ -870,6 +870,8 @@ class SubscriberSubjectValidator(validation.Validator):
 
         if self._required_one_of_n_attributes and len(self._required_one_of_n_attributes.intersection(attributes)) == 0:
             oids = oid.format_oids(self._required_one_of_n_attributes)
+            oids.strip()
+            oids.strip(",")
             oids_str = ""
             for o in oids:
                 oids_str += o
