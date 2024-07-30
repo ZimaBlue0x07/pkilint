@@ -873,7 +873,7 @@ class SubscriberSubjectValidator(validation.Validator):
             oids_str = ""
             for o in oids:
                 oids_str += f"a {o}"
-            findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE, oids))
+            findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE, oids_str))
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_PROHIBITED_ATTRIBUTE,
