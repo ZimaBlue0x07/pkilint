@@ -870,12 +870,10 @@ class SubscriberSubjectValidator(validation.Validator):
 
         if self._required_one_of_n_attributes and len(self._required_one_of_n_attributes.intersection(attributes)) == 0:
             oids = oid.format_oids(self._required_one_of_n_attributes)
-            oids = oids.strip()
-            oids = oids.strip(",")
-            oids_str = ""
-            for o in oids:
-                oids_str += o
-            findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE, oids_str))
+            # oids_str = ""
+            # for o in oids:
+            #     oids_str += o
+            findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE, oids))
 
         findings.extend((
             validation.ValidationFindingDescription(self.VALIDATION_PROHIBITED_ATTRIBUTE,
