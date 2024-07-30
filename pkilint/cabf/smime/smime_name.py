@@ -871,8 +871,8 @@ class SubscriberSubjectValidator(validation.Validator):
         if self._required_one_of_n_attributes and len(self._required_one_of_n_attributes.intersection(attributes)) == 0:
             oids = oid.format_oids(self._required_one_of_n_attributes)
             oids_str = ""
-            for oid in oids:
-                oids_str += str(oid_metadata[str(oid)["Name"]])
+            for o in oids:
+                oids_str += str(oid_metadata[str(o)["Name"]])
             findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE, oids_str))
 
         findings.extend((
