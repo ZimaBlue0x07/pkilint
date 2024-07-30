@@ -364,7 +364,7 @@ class AllowedKeyUsageValidator(validation.Validator):
             ku_str = ', '.join(sorted(prohibited_kus))
 
             raise validation.ValidationFindingEncountered(
-                self.VALIDATION_PROHIBITED_KU_PRESENT, {ku_str}  # simplify output, old representation was f'Prohibited KUs present: {ku_str}'
+                self.VALIDATION_PROHIBITED_KU_PRESENT, ku_str  # simplify output, old representation was f'Prohibited KUs present: {ku_str}'
             )
 
 
