@@ -872,7 +872,7 @@ class SubscriberSubjectValidator(validation.Validator):
             oids = oid.format_oids(self._required_one_of_n_attributes)
             oids_str = ""
             for o in oids:
-                oids_str += oid_metadata[str(o)]
+                oids_str += o
             findings.append(validation.ValidationFindingDescription(self.VALIDATION_MISSING_ATTRIBUTE, oids_str))
 
         findings.extend((
