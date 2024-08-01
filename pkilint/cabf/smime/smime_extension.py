@@ -267,7 +267,7 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
         )
 
         # debug
-        for kp in node.children.values():
+        for kp in kp_oids:
             print(f"\n\n {kp} \n\n")
         
         findings = []
