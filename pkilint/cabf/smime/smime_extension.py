@@ -258,6 +258,14 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
             pdu_class=rfc5280.ExtKeyUsageSyntax
         )
 
+    @classmethod            # added
+    def _get_prohibited_kus(cls, node, allowed_kus):
+        return {
+            pk
+            for pk in cls._ALL_KUS - allowed_kus
+            if bitstring.has_named_bit(node, pk)
+        }
+
     def validate(self, node):
         kp_oids = set(
             (
@@ -266,10 +274,8 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
             )
         )
 
-        # debug
-        for kp in node.children.values():
-            print(f"\n\n {kp} \n\n")
-        
+        allowed_kus = {KeyUsageBitName.DIGITAL_SIGNATURE}
+
         findings = []
         if rfc5280.id_kp_emailProtection not in kp_oids:
             findings.append(
@@ -289,6 +295,9 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
                 oid_str = oid_dict[str(oid.format_oids(prohibited_kps))]
             except:
                 oid_str = "Unkown"
+
+            prohibited_kus = self._get_prohibited_kus(node, allowed_kus)  # changed
+
 
             findings.append(
                 validation.ValidationFindingDescription(
