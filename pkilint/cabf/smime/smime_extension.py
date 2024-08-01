@@ -267,7 +267,8 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
         )
 
         # debug
-        print(f"\n\n {node.children.values()} \n\n")
+        for kp in node.children.values():
+            print(f"\n\n {kp} \n\n")
         
         findings = []
         if rfc5280.id_kp_emailProtection not in kp_oids:
