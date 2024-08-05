@@ -13,7 +13,7 @@ from pkilint.pkix import extension
 from pkilint.pkix.certificate.certificate_extension import KeyUsageBitName
 
 oid_dict = {
-    "1.3.6.1.5.5.7.3.1":  rfc5280.id_kp_serverAuth, 
+    "1.3.6.1.5.5.7.3.1":  str(rfc5280.id_kp_serverAuth), 
     "1.3.6.1.5.5.7.3.2": "id_kp_clientAuth",
     "1.3.6.1.5.5.7.3.3": "id_kp_codeSigning",
     "1.3.6.1.5.5.7.3.4": "id_kp_emailProtection",
