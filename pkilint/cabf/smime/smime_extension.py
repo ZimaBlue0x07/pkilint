@@ -13,16 +13,17 @@ from pkilint.pkix import extension
 from pkilint.pkix.certificate.certificate_extension import KeyUsageBitName
 
 oid_dict = {
-    str(rfc5280.id_kp_serverAuth):  "id_kp_serverAuth", 
-    "1.3.6.1.5.5.7.3.2": "id_kp_clientAuth",
+    "1.3.6.1.5.5.7.3.1":  "id_kp_serverAuth", 
+    "1.3.6.1.5.5.7.3.2": "id_kp_clientAuth",      
     "1.3.6.1.5.5.7.3.3": "id_kp_codeSigning",
     "1.3.6.1.5.5.7.3.4": "id_kp_emailProtection",
     "1.3.6.1.5.5.7.3.5": "id-kp-ipsecEndSystem",
     "1.3.6.1.5.5.7.3.6": "id-kp-ipsecTunnel",
     "1.3.6.1.5.5.7.3.7": "id-kp-ipsecUser",
-    "1.3.6.1.5.5.7.3.8": "id_kp_timeStamping",
-    "1.3.6.1.5.5.7.3.9": "OCSPSigning",
-    "1.3.6.1.5.5.7.3.19": "Control And Provisioning of Wireless Access Points, Wireless Termination Points"
+    "1.3.6.1.5.5.7.3.8": "id_kp_timeStamping",          # rfc5280.id_kp_timeStamping
+    "1.3.6.1.5.5.7.3.9": "OCSPSigning",                 # str(rfc5280.id_kp_OCSPSigning)
+    "1.3.6.1.5.5.7.3.19": "Control And Provisioning of Wireless Access Points, Wireless Termination Points",
+    "2.5.29.37.0": "anyExtendedKeyUsage" 
 }
 
 class CertificatePoliciesPresenceValidator(extension.ExtensionPresenceValidator):
