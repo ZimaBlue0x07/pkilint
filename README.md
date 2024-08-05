@@ -20,6 +20,7 @@ There are several ready-to-use command-line tools bundled with pkilint, or the P
 pip uninstall pkilint
 pip install git+https://github.com/ZimaBlue0x07/pkilint.git#egg=pkilint
 ```
+<<<<<<< HEAD
 
 Update the list in:
 
@@ -36,6 +37,8 @@ not_allowed_signature_algorithm_encodings = {
 to ensure better results.
 
 
+=======
+>>>>>>> main
 
 ### Installing locally
 
