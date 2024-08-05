@@ -12,6 +12,19 @@ from pkilint.itu import bitstring
 from pkilint.pkix import extension
 from pkilint.pkix.certificate.certificate_extension import KeyUsageBitName
 
+oid_dict = {
+    "1.3.6.1.5.5.7.3.1":  "id_kp_serverAuth", 
+    "1.3.6.1.5.5.7.3.2": "id_kp_clientAuth",      
+    "1.3.6.1.5.5.7.3.3": "id_kp_codeSigning",
+    "1.3.6.1.5.5.7.3.4": "id_kp_emailProtection",
+    "1.3.6.1.5.5.7.3.5": "id-kp-ipsecEndSystem",
+    "1.3.6.1.5.5.7.3.6": "id-kp-ipsecTunnel",
+    "1.3.6.1.5.5.7.3.7": "id-kp-ipsecUser",
+    "1.3.6.1.5.5.7.3.8": "id_kp_timeStamping",          # rfc5280.id_kp_timeStamping
+    "1.3.6.1.5.5.7.3.9": "OCSPSigning",                 # str(rfc5280.id_kp_OCSPSigning)
+    "1.3.6.1.5.5.7.3.19": "Control And Provisioning of Wireless Access Points, Wireless Termination Points",
+    "2.5.29.37.0": "anyExtendedKeyUsage" 
+}
 
 class CertificatePoliciesPresenceValidator(extension.ExtensionPresenceValidator):
     VALIDATION_CERTIFICATE_POLICIES_EXTENSION_ABSENT = validation.ValidationFinding(
@@ -246,6 +259,13 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
             pdu_class=rfc5280.ExtKeyUsageSyntax
         )
 
+    def _get_prohibited_kus(self, node, allowed_kus):
+        return {
+            pk
+            for pk in allowed_kus
+            if bitstring.has_named_bit(node, pk)
+        }
+
     def validate(self, node):
         kp_oids = set(
             (
@@ -269,10 +289,15 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
             prohibited_kps = kp_oids.intersection(self._LEGACY_MP_PROHIBITED_EKUS)
 
         if len(prohibited_kps) > 0:
+            try:
+                oid_str = oid_dict[str(oid.format_oids(prohibited_kps))]
+            except:
+                oid_str = oid.format_oids(prohibited_kps)
+
             findings.append(
                 validation.ValidationFindingDescription(
                     self.VALIDATION_PROHIBITED_EKU_PRESENT,
-                    f'Prohibited EKU(s) present: {oid.format_oids(prohibited_kps)}'
+                    oid_str # f'Prohibited EKU(s) present: {oid.format_oids(prohibited_kps)}'  # find missing eku 
                 )
             )
 
@@ -364,7 +389,7 @@ class AllowedKeyUsageValidator(validation.Validator):
             ku_str = ', '.join(sorted(prohibited_kus))
 
             raise validation.ValidationFindingEncountered(
-                self.VALIDATION_PROHIBITED_KU_PRESENT, f'Prohibited KUs present: {ku_str}'
+                self.VALIDATION_PROHIBITED_KU_PRESENT, ku_str  # simplify output, old representation was f'Prohibited KUs present: {ku_str}'
             )
 
 

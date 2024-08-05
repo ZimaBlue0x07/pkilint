@@ -101,5 +101,5 @@ class AllowedSignatureAlgorithmEncodingValidator(validation.Validator):
 
             raise validation.ValidationFindingEncountered(
                 self._validations[0],
-                f'Prohibited encoding: {encoded_str} Signature algorithms: {signature_algorithms_str}'
+                encoded_str
             )
