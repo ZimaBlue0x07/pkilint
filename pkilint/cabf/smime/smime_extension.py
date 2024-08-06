@@ -291,9 +291,11 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
         if len(prohibited_kps) > 0:
             oids = str(oid.format_oids(prohibited_kps))
             oids = oids.split(", ")
+            oids_list = []
             try:
-                for o in oids:    
-                    oid_str += o + "test"
+                for o in oids:
+                    oids_list.append(oid_dict[str(o)])
+                oid_str = ', '.join(map(str, oids_list))
             except:
                 oid_str = oid.format_oids(prohibited_kps)
 
