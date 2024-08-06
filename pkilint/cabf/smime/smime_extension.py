@@ -289,8 +289,10 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
             prohibited_kps = kp_oids.intersection(self._LEGACY_MP_PROHIBITED_EKUS)
 
         if len(prohibited_kps) > 0:
+            # oids = ','.join(oid.format_oids(prohibited_kps))
             try:
-                oid_str = oid_dict[str(oid.format_oids(prohibited_kps))]
+                for oid in oid.format_oids(prohibited_kps):
+                    oid_str = oid_dict[str(oid)]
             except:
                 oid_str = oid.format_oids(prohibited_kps)
 
