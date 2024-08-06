@@ -293,7 +293,7 @@ class AllowedExtendedKeyUsageValidator(validation.Validator):
             oids = oids.split(", ")
             try:
                 for oid in oids:    
-                    oid_str += oids
+                    oid_str += oid
             except:
                 oid_str = oid.format_oids(prohibited_kps)
 
