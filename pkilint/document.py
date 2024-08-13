@@ -10,9 +10,9 @@ from pyasn1.type.base import Asn1Type
 from pyasn1.type.univ import (ObjectIdentifier, SequenceOfAndSetOfBase, SequenceAndSetBase,
                               Choice, BitString
                               )
-from pyasn1 import debug
+# from pyasn1 import debug
 
-debug.setLogger(debug.Debug('all'))
+# debug.setLogger(debug.Debug('all'))
 
 logger = logging.getLogger(__name__)
 
