@@ -310,8 +310,8 @@ def decode_substrate(source_document: Document, substrate: bytes,
     else:
         try:
             logger.debug("Decoding substrate: %s", substrate.hex())
-            logger.debug("Decoded PDU: %s", decoded.prettyPrint())
             decoded, rest = decode(substrate, asn1Spec=pdu_instance) # something went wrong here
+            logger.debug("Decoded PDU: %s", decoded.prettyPrint())
             if len(rest) > 0:
                 logger.error("Unexpected data after decoding: %s", rest.hex())
         except (ValueError, PyAsn1Error, KeyError) as e:
