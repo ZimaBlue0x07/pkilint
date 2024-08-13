@@ -309,7 +309,7 @@ def decode_substrate(source_document: Document, substrate: bytes,
         decoded_pdu_name = get_node_name_for_pdu(decoded)
     else:
         try:
-            logger.debug("Decoding substrate: %s", substrate.hex())
+            logger.debug("Decoding substrate: %s", substrate)
             decoded, rest = decode(substrate, asn1Spec=pdu_instance) # something went wrong here
             logger.debug("Decoded PDU: %s", decoded.prettyPrint())
             if len(rest) > 0:
