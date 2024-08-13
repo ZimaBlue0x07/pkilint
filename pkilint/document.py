@@ -308,7 +308,8 @@ def decode_substrate(source_document: Document, substrate: bytes,
         decoded_pdu_name = get_node_name_for_pdu(decoded)
     else:
         try:
-            print(substrate, pdu_instance)
+            print("@@@ " + substrate + "@@@")
+            print(pdu_instance)
             decoded, rest = decode(substrate, asn1Spec=pdu_instance) # something went wrong here
         except (ValueError, PyAsn1Error) as e:
             raise SubstrateDecodingFailedError(source_document, pdu_instance, parent_node, str(e)) from e
