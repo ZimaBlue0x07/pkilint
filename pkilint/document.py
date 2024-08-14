@@ -317,11 +317,11 @@ def decode_substrate(source_document: Document, substrate: bytes,
     else:
         try:
             decoded, rest = decode(substrate, asn1Spec=pdu_instance) # something went wrong here
+            decoded_pdu_name = get_node_name_for_pdu(decoded)
+            type_name = decoded.__class__.__name__
         except:
             print("not evaluable")
 
-        decoded_pdu_name = get_node_name_for_pdu(decoded)
-        type_name = decoded.__class__.__name__
 
         if len(rest) > 0:
             rest_hex = bytes(rest).hex()
