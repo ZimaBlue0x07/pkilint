@@ -265,15 +265,6 @@ def get_node_name_for_pdu(pdu: Asn1Type) -> str:
     # convert PDU class name to camelCase
     return name[0].lower() + name[1:]
 
-
-class NotEvaluableFailedError(ValueError):
-    def __init__(self, *args: object) -> None:
-        super().__init__(*args)
-
-    def __str__(self):
-        return "not evaluable"
-
-
 class SubstrateDecodingFailedError(ValueError):
     def __init__(
             self, source_document: Document, pdu_instance: Optional[Asn1Type], parent_node: Optional[PDUNode],

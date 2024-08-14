@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from pyasn1.type import univ
 from pyasn1_alt_modules import rfc8398, rfc5280, rfc4262
 
+import json
 import pkilint.adobe.asn1 as adobe_asn1
 import pkilint.cabf.cabf_extension
 import pkilint.cabf.smime.smime_extension
@@ -72,7 +73,9 @@ def _get_first_subject_attr_dirstring_value(cert, attr, attr_asn1_cls):
         
         # Check if decoded_value is None before accessing child attribute
         if decoded_value is None:
-            print(f"Expected attribute {attr_asn1_cls()} not found in the certificate")
+            json_warning = f'["warning", "Expected attribute {attr_asn1_cls()} not found in the certificate"]'
+            parsed = json.loads(json_warning)
+            print(json.dumps(parsed))
             return
         
         # assume DirectoryString
