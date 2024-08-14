@@ -315,7 +315,7 @@ def decode_substrate(source_document: Document, substrate: bytes,
 
         decoded_pdu_name = get_node_name_for_pdu(decoded)
     else:
-        decode, rest = None, None
+        decoded, rest = None, None
         try:
             decoded, rest = decode(substrate, asn1Spec=pdu_instance) # something went wrong here
         except Exception as e:
