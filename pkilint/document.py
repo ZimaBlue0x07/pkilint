@@ -315,23 +315,24 @@ def decode_substrate(source_document: Document, substrate: bytes,
 
         decoded_pdu_name = get_node_name_for_pdu(decoded)
     else:
-        decode: any
-        rest: any
+        decode, rest = None, None
         try:
             decoded, rest = decode(substrate, asn1Spec=pdu_instance) # something went wrong here
-        except:
-            print("not evaluable")
+        except Exception as e:
+            print(f"not evaluable: {e}")
+            return 
 
-        decoded_pdu_name = get_node_name_for_pdu(decoded)
-        type_name = decoded.__class__.__name__
+        if decode is not None:
+            decoded_pdu_name = get_node_name_for_pdu(decoded)
+            type_name = decoded.__class__.__name__
 
-        if len(rest) > 0:
-            rest_hex = bytes(rest).hex()
+            if len(rest) > 0:
+                rest_hex = bytes(rest).hex()
 
-            raise SubstrateDecodingFailedError(
-                source_document, pdu_instance, parent_node,
-                f'{len(rest)} unexpected octet(s) following "{type_name}" TLV: "{rest_hex}"'
-            )
+                raise SubstrateDecodingFailedError(
+                    source_document, pdu_instance, parent_node,
+                    f'{len(rest)} unexpected octet(s) following "{type_name}" TLV: "{rest_hex}"'
+                )
 
         try:
             encoded = encode(decoded)
