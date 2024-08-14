@@ -69,7 +69,10 @@ def _get_first_subject_attr_dirstring_value(cert, attr, attr_asn1_cls):
         attr_value_pdu = attr.children['value'].pdu
 
         decoded_value = document.decode_substrate(cert, attr_value_pdu, attr_asn1_cls())
-
+        
+        if decoded_value is None:
+            raise ValueError(f"Expected attribute {attr_value_pdu} not found in the certificate")
+        
         # assume DirectoryString
         _, attr_value_choice_value = decoded_value.child
 
