@@ -319,7 +319,7 @@ def decode_substrate(source_document: Document, substrate: bytes,
         try:
             decoded, rest = decode(substrate, asn1Spec=pdu_instance) # something went wrong here
         except Exception as e:
-            print(f"not evaluable: {e}")
+            print(f"not evaluable")
             return 
 
         if decode is not None:
