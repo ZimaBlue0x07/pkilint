@@ -73,10 +73,10 @@ def _get_first_subject_attr_dirstring_value(cert, attr, attr_asn1_cls):
         
         # Check if decoded_value is None before accessing child attribute
         if decoded_value is None:
-            json_warning = f'["warning", "Expected attribute {attr_asn1_cls} not found in the certificate"]'
+            json_warning = f'["warning", "Expected attribute {attr_asn1_cls()} not found in the certificate"]'
             parsed = json.loads(json_warning)
-            print(json.dumps(parsed))
-            return
+            # print(json.dumps(parsed))
+            return json.dumps(parsed)
         
         # assume DirectoryString
         _, attr_value_choice_value = decoded_value.child
